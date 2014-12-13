@@ -4,6 +4,13 @@ list data structure for functional programming
 
 ##### How to use
 include <strong> list.js </strong>
+
+```html
+<script src="list.js"></script>
+<script>
+    var my_list = list(1, 2, 3, 4);
+</script>
+```
 ##### Code Structure
 > $List   
 *       . first
