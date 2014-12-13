@@ -157,7 +157,7 @@ list_module = (() ->
                 func(l.first)
                 iter(l.rest)
         iter(this)
-        
+    List.prototype.foreach = List.prototype.forEach    
         
     ### 
     list map
@@ -174,6 +174,25 @@ list_module = (() ->
                 cons func(l.first), iter(l.rest)
                 
         iter(this)
+        
+    ###
+    list filter
+    eg:
+        x = list(1, 2, 3, 4)
+        x.filter(i => i > 2)  => (3, 4)
+    ###
+    List.prototype.filter = (func) ->
+        iter = (l) ->
+            if l == null 
+                null 
+            else 
+                if func(l.first)
+                    cons l.first, iter(l.rest)
+                else
+                    iter l.rest
+        iter(this)
+        
+        
     
         
     ###
@@ -184,6 +203,18 @@ list_module = (() ->
     ###
     cons = (a, b) ->
         new List(a, b)
+    
+    ###
+    car: get first element of list
+    ###
+    car = (l)->
+        l.first
+    
+    ###
+    cdr: get rest elements of list
+    ###
+    cdr = (l)->
+        l.rest
     
     ###
     construct list. same as lisp
@@ -200,13 +231,17 @@ list_module = (() ->
         
     {
         list: list 
-        cons: cons}
+        cons: cons
+        List: List
+        car: car
+        cdr: cdr}
         
     )()
-        
+    
+    
+## Dispatch functions        
+$l = list_module.List
 list = list_module.list
 cons = list_module.cons
-x = list(1, 2, 3, 4, 5)
-x = x.map (i)->i*2
-console.log x.toString()
-
+car = list_module.car 
+cdr = list_module.cdr
