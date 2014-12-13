@@ -240,7 +240,7 @@ list_module = (() ->
     
     
 ## Dispatch functions        
-$l = list_module.List
+$List = list_module.List
 list = list_module.list
 cons = list_module.cons
 car = list_module.car 
