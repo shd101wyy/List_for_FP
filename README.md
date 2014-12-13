@@ -25,6 +25,7 @@ include <strong> list.js </strong>
 > $List.prototype.forEach    
 > $List.prototype.foreach      
 > $List.prototype.map      
+> $List.prototype.filter    
 
 > list  
 > cons  
