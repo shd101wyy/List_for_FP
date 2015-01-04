@@ -5,7 +5,7 @@
 
 ###
 list_module = (() ->
-    
+
     ###
         Construct List data structure
     ###
@@ -13,7 +13,7 @@ list_module = (() ->
         this.first = first
         this.rest = rest
         null
-    
+
     ###
     get length of list
     eg:
@@ -35,11 +35,11 @@ list_module = (() ->
             if l == null
                 output += ")"
             else if (l instanceof List)
-                to_string(l.rest, output + l.first.toString() + (if l.rest == null then "" else ", "))
+                to_string(l.rest, output + (if l.first == null then "()" else l.first.toString()) + (if l.rest == null then "" else ", "))
             else
                 output = output.slice(0, -2) + " . " + l.toString() + ")"
         to_string(this, "(")
-    
+
     ###
     list reverse
     eg:
@@ -50,12 +50,12 @@ list_module = (() ->
         list_reverse = (l, output) ->
             if l instanceof List
                 list_reverse l.rest, cons(l.first, output)
-            else if l == null 
+            else if l == null
                 output
             else
                 cons l, output
         list_reverse(this, null)
-                
+
     ###
     list slice
     eg:
@@ -70,18 +70,18 @@ list_module = (() ->
                 start = this.length() + start
             slice1 = (l, i) ->
                 if i == 0
-                    l 
-                else 
+                    l
+                else
                     slice1(l.rest, i-1)
             slice1(this, start)
-        else 
+        else
             neg = (start < 0 or end < 0)
             if neg
                 length = this.length()
                 start = (if start < 0 then length + start else start)
                 end = (if end < 0 then length + end else end)
-                
-            slice2 = (l, i, j) -> 
+
+            slice2 = (l, i, j) ->
                 if i==0
                     if j==0 or l==null
                         null
@@ -90,10 +90,10 @@ list_module = (() ->
                 else
                     slice2(l.rest, i-1, j)
             slice2(this, start, end-start)
-    
+
     ###
     list ref
-    eg: 
+    eg:
         x = list(1, 2, 3, 4)
         x.ref(0) => 1
     ###
@@ -101,16 +101,16 @@ list_module = (() ->
         if i < 0
             i = this.length() + i
         ref = (l, i)->
-            if l == null 
+            if l == null
                 null
             else if i == 0
                 l.first
             else
                 ref l.rest, i-1
-    
+
         ref(this, i)
-        
-        
+
+
     ###
     list append
     eg:
@@ -121,12 +121,12 @@ list_module = (() ->
     List.prototype.append = (i...) ->
         o = list.apply(list, i)
         append = (l, o) ->
-            if l == null 
-                o 
-            else 
+            if l == null
+                o
+            else
                 cons l.first, append(l.rest, o)
         append this, o
-        
+
     ###
     list toArray
     eg:
@@ -138,43 +138,43 @@ list_module = (() ->
         to_array = (l) ->
             if l == null
                 output
-            else 
+            else
                 output.push l.first
                 to_array l.rest
         to_array(this)
-        
-    ### 
+
+    ###
     list forEach
     eg:
         x = list(1, 2, 3)
         x.forEach(i => console.log(i)) => print 1, 2, 3
     ###
-    List.prototype.forEach = (func) -> 
+    List.prototype.forEach = (func) ->
         iter = (l) ->
-            if l == null 
-                null 
-            else 
+            if l == null
+                null
+            else
                 func(l.first)
                 iter(l.rest)
         iter(this)
-    List.prototype.foreach = List.prototype.forEach    
-        
-    ### 
+    List.prototype.foreach = List.prototype.forEach
+
+    ###
     list map
     eg:
         x = list(1, 2, 3)
         x.map(i=>i*2) => (2, 4, 6)
     ###
-    
+
     List.prototype.map = (func) ->
         iter = (l) ->
-            if l == null 
+            if l == null
                 null
-            else 
+            else
                 cons func(l.first), iter(l.rest)
-                
+
         iter(this)
-        
+
     ###
     list filter
     eg:
@@ -183,39 +183,39 @@ list_module = (() ->
     ###
     List.prototype.filter = (func) ->
         iter = (l) ->
-            if l == null 
-                null 
-            else 
+            if l == null
+                null
+            else
                 if func(l.first)
                     cons l.first, iter(l.rest)
                 else
                     iter l.rest
         iter(this)
-        
-        
-    
-        
+
+
+
+
     ###
     cons two elements.  same as lisp
-    eg: 
+    eg:
         x = cons(3, 4)
         y = cons(3, cons(4, null))
     ###
     cons = (a, b) ->
         new List(a, b)
-    
+
     ###
     car: get first element of list
     ###
     car = (l)->
         l.first
-    
+
     ###
     cdr: get rest elements of list
     ###
     cdr = (l)->
         l.rest
-    
+
     ###
     construct list. same as lisp
     eg:
@@ -224,24 +224,24 @@ list_module = (() ->
     list = (a...) ->
         create_list = (a, i) ->
             if i == a.length
-                null 
+                null
             else
                 cons a[i], create_list(a, i+1)
         create_list(a, 0)
-        
+
     {
-        list: list 
+        list: list
         cons: cons
         List: List
         car: car
         cdr: cdr}
-        
+
     )()
-    
-    
-## Dispatch functions        
+
+
+## Dispatch functions
 $List = list_module.List
 list = list_module.list
 cons = list_module.cons
-car = list_module.car 
+car = list_module.car
 cdr = list_module.cdr
