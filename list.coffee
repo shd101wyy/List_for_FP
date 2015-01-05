@@ -245,3 +245,10 @@ list = list_module.list
 cons = list_module.cons
 car = list_module.car
 cdr = list_module.cdr
+
+if typeof(module) != "undefined"
+    module.exports.$List = $List;
+    module.exports.list = list;
+    module.exports.cons = cons;
+    module.exports.car = car;
+    module.exports.cdr = cdr;
