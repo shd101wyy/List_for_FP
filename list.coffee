@@ -35,7 +35,7 @@ list_module = (() ->
             if l == null
                 output += ")"
             else if (l instanceof List)
-                to_string(l.rest, output + (if l.first == null then "()" else l.first.toString()) + (if l.rest == null then "" else ", "))
+                to_string(l.rest, output + (if l.first == null then "()" else (if l.first instanceof Array then "[" + l.first.toString() + "]" else l.first.toString())) + (if l.rest == null then "" else ", "))
             else
                 output = output.slice(0, -2) + " . " + l.toString() + ")"
         to_string(this, "(")
